@@ -132,6 +132,9 @@
 					<a href="rh_emp_reportes.php?'.$query_datosEmp.'" class="ml-10 btn btn-primary" >
 						Reportes
 					</a> 
+					<a href="rh_emp_estatus.php?'.$query_datosEmp.'" class="ml-10 btn btn-warning" >
+						Estatus
+					</a> 
 				</div>
 			</div> 					
 			
@@ -150,11 +153,11 @@
 								<div class="mt-40">	
 							
 									<section id="buttons">';
-									if($url != 'rh_emp_atencion.php'){
-									echo'
-									<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.'&name='.$nameEmp.' " class="btn btn-large btn-success">
-									'.$titulo_boton_agregar.'</a></p> 
-									';
+									if($url != 'rh_emp_atencion.php' && $url != 'rh_emp_estatus.php'){
+										echo'
+										<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.'&name='.$nameEmp.' " class="btn btn-large btn-success">
+										'.$titulo_boton_agregar.'</a></p> 
+										';
 									}
 									echo' 
 									
@@ -236,8 +239,8 @@
 									}
 									$current_user=$_SESSION["admindif_admin_id"];
 								$fin_concat="CONCAT_WS(' ',".$concatenador.")";
-								//echo $fin_concat;
-								if($url != "rh_emp_atencion.php"){
+								//echo $fin_concat; 
+								if($url != "rh_emp_atencion.php" && $url != 'rh_emp_estatus.php'){
 									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id=$id OR $nomb_tabla.id_empleado=$id AND $fin_concat like'%$buscador%'";
 								} else {
 									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id=$id  AND $fin_concat like'%$buscador%'";
@@ -315,12 +318,12 @@
 											
 											}						            
 											echo'
-													<td class="title tablesaw-cell-persist"><a href="javascript:void(0)">
-													<a href="'.$link.'?accion=editar&id='.$row[id].'" class="btn btn-medium btn-primary"><i class="icon-pencil icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<a onclick="valida_borrar_registro(\''.$row[id].'\')" class="btn btn-medium btn-danger msgbox-inverse" alt="'.$row[id].'"><i class="icon-trash icon-large" style="color:#fff;"></a>
-													</td>
+												<td class="title tablesaw-cell-persist"><a href="javascript:void(0)">
+												<a href="'.$link.'?accion=editar&id='.$row[id].'" class="btn btn-medium btn-primary"><i class="icon-pencil icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<!-- <a onclick="valida_borrar_registro(\''.$row[id].'\')" class="btn btn-medium btn-danger msgbox-inverse" alt="'.$row[id].'"><i class="icon-trash icon-large" style="color:#fff;"></a> -->
+												</td>
 												</tr>
-											';
+											'; 
 									}
 		?>					          
 										</tbody>
@@ -464,30 +467,30 @@
 									// }
 									echo' 
 
-									<p align="center"><a href="'.$url.'?accion=agregar" class="btn btn-large btn-success">
-									'.$titulo_boton_agregar.'</a></p> 
+										<p align="center"><a href="'.$url.'?accion=agregar" class="btn btn-large btn-success">
+										'.$titulo_boton_agregar.'</a></p> 
 
-									<section id="tables">
-									<form action="'.$url.'" method="post" enctype="multipart/form-data">
+										<section id="tables">
+										<form action="'.$url.'" method="post" enctype="multipart/form-data">
 
 
-									<div class="col-sm-6 col-md-4">
-										<div class="input-group">
-											<input type="text" autofocus  class="form-control" name="buscar" id="buscar" placeholder="Buscar" value="'.$buscador.'">
-											<span class="input-group-btn">
-											<input type="submit" class="btn btn-primary">
-											</span>
+										<div class="col-sm-6 col-md-4">
+											<div class="input-group">
+												<input type="text" autofocus  class="form-control" name="buscar" id="buscar" placeholder="Buscar" value="'.$buscador.'">
+												<span class="input-group-btn">
+												<input type="submit" class="btn btn-primary">
+												</span>
+											</div>
 										</div>
-									</div>
-									</form>
-								
-									<br /><br /><br />
+										</form>
+									
+										<br /><br /><br />
 
 
-									<table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
-										<thead>
-										<tr>
-										'; 
+										<table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
+											<thead>
+											<tr>
+									'; 
 							$contador_busq=count($arreglo_busqueda);
 									if($imp_id){echo'<th>ID</th>';}
 							for($i=0;$i<$contador_busq;$i++){
@@ -705,7 +708,7 @@
 			
 		<?php
 	}//IMPRIMIR LISTA FIN
-	
+
 	function modificar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables){
 			
 		$con=conectar();	
@@ -756,7 +759,7 @@
 			}
 			$array_imagen=array($nomb_tabla,$name,$ubicacion,$con,$url);
 		}else{
-			echo alerta_bota('Alerta','Registro repetido favor de verificar',''.$url.'');
+			echo alerta_bota('Alerta','Registro repetido favor de verificar',''.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'');
 		}
 		}//*/
 		if(!$query_ver){
@@ -767,7 +770,7 @@
 			mysql_query($query,$con) or die (mysql_error());
 			mysql_query("commit",$con);
 
-			echo alerta_bota('Registro modificado con éxito',"informacion",''.$url.'');
+			echo alerta_bota('Registro modificado con éxito',"informacion",''.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'');
 		}//Update
 
 			//echo "<br /><br /><br /><br /><br /><br /><h1>Hola ".$query."</h1>";
@@ -1259,7 +1262,7 @@
 		";
 
 	}
-	
+
 	function alerta_bota($mensaje,$tipo,$url){
 		echo '
 

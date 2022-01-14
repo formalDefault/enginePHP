@@ -17,7 +17,7 @@ $imp_id="";	//mostrar id en imprimir
  
 
 // Acta administrativa
-$array_variables=array(
+$array_variables=array( 
 //   array("Acta Administrativa","","salto_linea","","","","","","","","","","","")//salto de linea 
   array("Fecha","fecha","date","","","","required","4","date","NOT NULL","si","","","")  
  ,array("Hechos","hechos","text","","","","required","4","text","NOT NULL","si","","","")
@@ -25,7 +25,7 @@ $array_variables=array(
  ,array("Declaracion","declaracion","textarea","","","","required style='resize:none'","12","text","NOT NULL","si","","","")
  ,array("Descripcion","descripcion","textarea","","","","required style='resize:none'","12","text","NOT NULL","si","","","")
  ,array("","id_empleado","hiddenInsert","","","","","","INT (11)","NOT NULL","","","","")
-); 
+  ); 
  
 ?>
 <!DOCTYPE html>

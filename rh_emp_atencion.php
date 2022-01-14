@@ -23,6 +23,7 @@
     ,array("*Primer Apellido","appat","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (100)","NOT NULL","si","","","")
     ,array("Segundo Apellido","apmat","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR (100)","NOT NULL","si","","","")
     ,array("*Fecha de Nacimiento","fecha_nac","date","","","","required","4","DATE","NOT NULL","","","","")
+    ,array("Estado laboral","estado_laboral","text","","","","' required","4","VARCHAR (10)","NOT NULL","si","","","")
 
     //Lugar de Nacimiento
     ,array("Lugar de Nacimiento","","salto_linea","","","","","18","","","","","","")

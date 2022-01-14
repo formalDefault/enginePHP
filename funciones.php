@@ -171,8 +171,7 @@ function leerjson($url){
    return $texto;
 }
 
-function conectar() 
-{
+function conectar() {
   global $servidordb;
   global $userdb;
   global $passdb;
@@ -186,6 +185,7 @@ function conectar()
     }//*/
   return $con;
 }
+
 $con=conectar();
 
 function obten($cad){
