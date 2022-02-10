@@ -29,6 +29,7 @@
   ,array("Firma de atendido","firma_atendido","text","","","","required","4","VARCHAR(50)","NOT NULL","","","","") 
   ,array("Firmo de recibido","firma_recibo","text","","","","required","4","VARCHAR(50)","NOT NULL","","","","") 
   ,array("","id_empleado","hiddenInsert","","","","","","INT (8)","NOT NULL","","","","")
+  
   ); 
 
 ?>
