@@ -10,6 +10,7 @@ function get_row($table,$row, $id, $equal){
     $value=$rw[$row];
     return $value;
 }
+ 
 
 function consulta_curp_old($curp){
     $curp_busqueda = (string) strtoupper(ltrim($curp));

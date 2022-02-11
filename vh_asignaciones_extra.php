@@ -86,7 +86,7 @@ $array_variables = array(
 			include "barra_nav.php";
 			include "barra_izquierda.php";
 			include "barra_derecha.php";
-			include "contenido_engine_rh.php"; //Cambiar PHP de contenido
+			include "contenido_engine_vh.php"; //Cambiar PHP de contenido
 			?>
 	        <!-- /Main Content -->
 

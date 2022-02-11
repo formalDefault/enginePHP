@@ -148,12 +148,30 @@
 								<div class="mt-40">	
 							
 									<section id="buttons">';
-									if($url != 'rh_emp_atencion.php' && $url != 'rh_emp_estatus.php'){
+									if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php")
+									{
+										$query = mysql_query("SELECT COUNT(*) FROM $nomb_tabla WHERE id_vehiculo = $id AND id_estado = 1");
+										$rw = mysql_fetch_row($query);
+										$filas = $rw[0];
+										if( $filas == '0' ){
+											echo'
+											<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
+											'.$titulo_boton_agregar.'</a></p> 
+											';
+										}
+										else{
+											echo '';
+										}
+									}
+									else
+									{
 										echo'
-										<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
-										'.$titulo_boton_agregar.'</a></p> 
+											<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
+											'.$titulo_boton_agregar.'</a></p> 
 										';
 									}
+
+									
 									echo' 
 									
 									<section id="tables">
