@@ -2,32 +2,37 @@
 session_start();
 if($_SESSION[admin_id_pub]){
 include "config.php";
-$pagina="Solicitud de vacaciones";
+$pagina="Agregar Vehiculos";  
 
 //CONFIGURACION DE PAGINA
 $color_form="naranja";
 $color_imprimir="naranja";
 $color_botones="blanco";
-$url="rh_emp_vacaciones.php";
-$nomb_tabla="rh_solicitud_vacaciones";
-$nombre_formulario="Solicitud de vacaciones";
-$titulo_boton_agregar="Agregar";
+$url="vh_vehiculos.php";
+$nomb_tabla="vh_vehiculos";
+$nombre_formulario="Vehiculos";
+$titulo_boton_agregar="Agregar vehiculo";
 $genera_reportes="si";
-$imp_id="";	//mostrar id en imprimir  
+$imp_id="";	//mostrar id en imprimir 
 
-//ELEMENTOS DE FORMULARIO Solicitud de Vacaciones
-$array_variables=array(
-	array("Fecha","fecha","date","","","","require='require'","4","date","NOT NULL","si","","","")
-   ,array("Fecha De Ingreso","fecha_ingreso","date","","","","require='require'","4","date","NOT NULL","si","","","")
-   ,array("Dias a tomar","dias_a_tomar","number","","","","require='require'","4","int (2)","NOT NULL","si","","","")
-   ,array("Periodo de Vacaciones","","salto_linea","","","","","","","","","","","")//salto de linea 
-   ,array("Inicio De Vacaciones","inicio_vacaciones","date","","","","require='require'","4","date","NOT NULL","si","","","")
-   ,array("Termino De Vacaciones","termino_vacaciones","date","","","","require='require'","4","date","NOT NULL","si","","","")
-   ,array("Año De Trabajo Correspondiente","anio_trabajo_correspondiente","number","NOT NULL","","","require='require'","4","int","NOT NULL","","","","")
-   ,array("Firma Autorizacion Coordinador del programa","firma_autorizacion_coord","select_x","NOT NULL","","|Si=si|No=no","required='required'","6","VARCHAR (50)","NOT NULL","","","","")
-   ,array("Firma Empleado","firma_empleado","select_x","","","|Si=si|No=no","required='required'","6","VARCHAR (50)","NOT NULL","","","","")
-   ,array("Observaciones","observaciones","textarea","","","","style='resize: none'","12","text","NOT NULL","si","","","")
-   ,array("","id_empleado","hiddenInsert","","","","","","INT (8)","NOT NULL","","","","")
+
+$array_variables = array(
+
+  array("*Marca","marca","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (20)","NOT NULL","si","","","")
+  ,array("*Modelo","modelo","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (20)","NOT NULL","si","","","")
+  ,array("Sub Modelo","sub_modelo","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR (20)","NOT NULL","si","","","")
+  ,array("*Año","year","number","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (4)","NOT NULL","si","","","")
+  ,array("*Color","color","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (10)","NOT NULL","si","","","")
+  ,array("Factura","factura","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR (20)","NOT NULL","","","","")
+  ,array("Proveedor","proveedor","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR (100)","NOT NULL","","","","") 
+  ,array("Fecha de adquisición","fecha_Adquisicion","date","","","","onblur='this.value=this.value.toUpperCase()'","4","date","NOT NULL","","","","")
+  ,array("Numero motor","num_motor","number","","","","onblur='this.value=this.value.toUpperCase()'","4","int","NOT NULL","","","","")
+  ,array("Numero Serie","num_serie","number","","","","","4","int","NOT NULL","si","","","")
+  ,array("Monto","monto","number","","","","min='0' step='0.01'","4","double","NOT NULL","","","","")
+  ,array("*Placas","placas","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (10)","NOT NULL","","","","")
+  ,array("*Tarjeta de circulación","tarjeta_circulacion","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (25)","NOT NULL","","","","")
+  ,array("Observaciones","observaciones","textarea","","","","","12","text","NOT NULL","","","","")
+
 );
 
 ?>

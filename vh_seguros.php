@@ -2,31 +2,30 @@
 session_start();
 if($_SESSION[admin_id_pub]){
 include "config.php";
-$pagina="Solicitud de fondo de ahorro";
+$pagina="Agregar Seguros";  
 
 //CONFIGURACION DE PAGINA
 $color_form="naranja";
 $color_imprimir="naranja";
 $color_botones="blanco";
-$url="rh_emp_ahorro.php";
-$nomb_tabla="rh_solicitud_fondo_ahorro";
-$nombre_formulario="Solicitud de fondo de ahorro";
-$titulo_boton_agregar="Agregar solicitud de prestamo";
+$url="vh_seguros.php";
+$nomb_tabla="vh_seguros";
+$nombre_formulario="Seguros";
+$titulo_boton_agregar="Agregar Seguro";
 $genera_reportes="si";
-$imp_id="";	//mostrar id en imprimir  
-
-//ELEMENTOS DE FORMULARIO Solicitud de Prestamo fondo de ahorro
-$array_variables=array(
-	array("Importe","importe","number","","","","require='require'","4","double","NOT NULL","si","","","")
-   ,array("Forma de pago","forma_pago","text","","","","require='require'","4","varchar (200)","NOT NULL","si","","","")
-   ,array("Plazo de pago","plazo_pago","text","","","","require='require'","4","varchar (200)","NOT NULL","si","","","")
-   ,array("Firma Autorizacion Coordinador","firma_autorizacion_coord","text","","","","require='require'","4","VARCHAR (50)","NOT NULL","","","","")
-   ,array("Firma Empleado","firma_empleado","select_x","","","|Si=si|No=no","require='require'","4","VARCHAR (50)","NOT NULL","","","","")
-   ,array("Firma RH","firma_rh","select_x","","","|Si=si|No=no","required='required'","4","VARCHAR (50)","NOT NULL","","","","") 
-   ,array("Observaciones","observaciones","textarea","","","","style='resize: none'","12","text","NOT NULL","si","","","")
-   ,array("","id_empleado","hiddenInsert","","","","","","INT (8)","NOT NULL","","","","")
-);  
+$imp_id="";	//mostrar id en imprimir 
  
+$array_variables = array(
+
+  array("*Fecha","fecha","date","","","","' required","4","DATE","NOT NULL","si","","","")
+  ,array("*Numero de poliza","poliza","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR (20)","NOT NULL","si","","","")
+  ,array("*Costo","monto","number","","","","required min='0' step='0.01'","4","DOUBLE","NOT NULL","si","","","")
+  ,array("*Vigencia","vigencia","date","","",""," required","4","DATE","NOT NULL","si","","","")
+  ,array("*Telefono siniestros ","telefono","text","","","","","12","VARCHAR (10) required","NOT NULL","si","","","") 
+  ,array("Observaciones","observaciones","textarea","","","","","12","TEXT","NOT NULL","","","","") 
+
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

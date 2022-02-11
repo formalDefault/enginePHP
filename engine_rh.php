@@ -5,10 +5,11 @@
 	include "config.php";
 	global $urlbase;
 
-	if ($accion=="agregar" or $accion=="editar") echo formulario($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase); 
-	if ($accion=="eliminar") echo eliminar($con,$id,$nomb_tabla,$url);
+	if ($accion=="agregar") echo formulario($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase); 
+	if ($accion=="editar") echo edit($con,addslashes(obten("id_registro")),$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase,addslashes(obten("id"))); 
+	if ($accion=="eliminar") echo eliminar($con,$id,$nomb_tabla,$url, addslashes(obten("id_registro")));
 	if ($accion=="eliminarok") echo eliminarok($con,$id,$nomb_tabla,$url);
-	if ($accion=="modificar") echo modificar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables);
+	if ($accion=="modificar") echo modificar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables, addslashes(obten("id_registro")));
 	if ($accion=="aa") echo imprimir($con,$url,$nomb_tabla,$array_variables,$color_imprimir,$color_botones,$titulo_boton_agregar,$nombre_formulario,$imp_id);
 	if ($accion=="insertar") echo insertar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables);
 	if ($accion=="sql") echo sql($con,$nomb_tabla,$array_variables,$url);
@@ -61,7 +62,7 @@
 		$nameEmp=addslashes(obten("name"));
 		$con=conectar();
 		$contador=count($array_variables);
-		$query_datosEmp = 'accion=menu&id='.$id.'&name='.$nameEmp.'';
+		$query_datosVh = 'accion=menu&id='.$id.'';
 		$buscador=obten("buscar"); 
 		for($i=0;$i<$contador;$i++){
 			$arreglo_buscar=$array_variables[$i];
@@ -108,33 +109,27 @@
 			
 			<div class="" style="margin-bottom:15px;margin-top-10px">  
 				<div class="flex flex-row ">   
-					<a href="rh_emp_atencion.php?'.$query_datosEmp.'" class=" btn btn-primary" >
-						Informacion
+					<a href="vh_asignacion.php?'.$query_datosVh.'" class=" btn btn-primary" >
+						Asignaciones
 					</a> 
-					<a href="rh_emp_vacaciones.php?'.$query_datosEmp.'" class="ml-10 btn btn-success"">
-						Vacaciones
+					<a href="vh_servicios.php?'.$query_datosVh.'" class="ml-10 btn btn-success"">
+						Servicios
 					</a>
-					<a href="rh_emp_avisoSalida.php?'.$query_datosEmp.'" class="ml-10 btn btn-danger">
-						Aviso salida
+					<a href="vh_incidencias.php?'.$query_datosVh.'" class="ml-10 btn btn-danger">
+						Incidencias
 					</a>
-					<a href="rh_emp_ahorro.php?'.$query_datosEmp.'" class="ml-10 btn btn-warning">
-						Fondo de ahorro
+					<a href="vh_seguros.php?'.$query_datosVh.'" class="ml-10 btn btn-warning">
+						Seguros
 					</a>
-					<a href="rh_emp_capacitaciones.php?'.$query_datosEmp.'" class="ml-10 btn btn-info">
-						Capacitaciones
+					<a href="vh_refrendos.php?'.$query_datosVh.'" class="ml-10 btn btn-info">
+						Refrendos
 					</a>
-					<a href="rh_emp_actaAdmin.php?'.$query_datosEmp.'" class="ml-10 btn btn-warning">
-						Acta administrativa
+					<a href="vh_asignaciones_extra.php?'.$query_datosVh.'" class="ml-10 btn btn-warning">
+						Asignaciones extra
 					</a> 
-					<a href="rh_emp_notaBodega.php?'.$query_datosEmp.'" class="ml-10 btn btn-success">
-						Nota de bodega
+					<a href="vh_vehiculos.php" class="ml-10 btn btn-primary"> 
+						Regresar al menu de vehiculos
 					</a>
-					<a href="rh_emp_reportes.php?'.$query_datosEmp.'" class="ml-10 btn btn-primary" >
-						Reportes
-					</a> 
-					<a href="rh_emp_estatus.php?'.$query_datosEmp.'" class="ml-10 btn btn-warning" >
-						Estatus
-					</a> 
 				</div>
 			</div> 					
 			
@@ -155,7 +150,7 @@
 									<section id="buttons">';
 									if($url != 'rh_emp_atencion.php' && $url != 'rh_emp_estatus.php'){
 										echo'
-										<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.'&name='.$nameEmp.' " class="btn btn-large btn-success">
+										<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
 										'.$titulo_boton_agregar.'</a></p> 
 										';
 									}
@@ -240,10 +235,10 @@
 									$current_user=$_SESSION["admindif_admin_id"];
 								$fin_concat="CONCAT_WS(' ',".$concatenador.")";
 								//echo $fin_concat; 
-								if($url != "rh_emp_atencion.php" && $url != 'rh_emp_estatus.php'){
-									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id=$id OR $nomb_tabla.id_empleado=$id AND $fin_concat like'%$buscador%'";
+								if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php"){
+									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id_vehiculo=$id AND $nomb_tabla.id_estado != 2 AND $fin_concat like'%$buscador%'";
 								} else {
-									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id=$id  AND $fin_concat like'%$buscador%'";
+									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id_vehiculo=$id AND $fin_concat like'%$buscador%'";
 								}
 								//echo $query_num;
 								$query_num_con=mysql_query($query_num,$con);
@@ -319,8 +314,8 @@
 											}						            
 											echo'
 												<td class="title tablesaw-cell-persist"><a href="javascript:void(0)">
-												<a href="'.$link.'?accion=editar&id='.$row[id].'" class="btn btn-medium btn-primary"><i class="icon-pencil icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<!-- <a onclick="valida_borrar_registro(\''.$row[id].'\')" class="btn btn-medium btn-danger msgbox-inverse" alt="'.$row[id].'"><i class="icon-trash icon-large" style="color:#fff;"></a> -->
+												<a href="'.$link.'?accion=editar&id='.$id.'&id_registro='.$row[id].'" class="btn btn-medium btn-primary"><i class="icon-pencil icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<a onclick="valida_borrar_registro('.$row[id].', '.$id.')" class="btn btn-medium btn-danger msgbox-inverse" alt="'.$row[id].'"><i class="icon-trash icon-large" style="color:#fff;"></a> 
 												</td>
 												</tr>
 											'; 
@@ -440,10 +435,11 @@
 							//OBTENER VARIABLE INDICE
 							$indice=obten("indice");
 		echo'
-
-
+		
 			<link href="vendors/bower_components/filament-tablesaw/dist/tablesaw.css" rel="stylesheet" type="text/css"/> 
-			
+			<div class="" style="margin-bottom:15px;margin-top-10px">  
+			 
+			</div> 	
 		<div class="row">
 			<div class="col-sm-12">	
 				<div class="panel panel-default card-view">      		
@@ -457,7 +453,7 @@
 						<div class="panel-body">
 							<div class="table-wrap">	
 								<div class="mt-40">	
-							
+									
 									<section id="buttons">';
 									// if($url){
 									// echo'
@@ -633,7 +629,7 @@
 									}						            
 									echo'
 										<td class="title tablesaw-cell-persist"><a href="javascript:void(0)">
-											<a href="'.$link.'rh_emp_atencion.php?accion=menu&id='.$row[id].'&name='.$row[nombre].'" class="btn btn-medium btn-primary"><p style="color: white">Seleccionar</p> <i class="icon-check icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+											<a href="'.$link.'vh_asignacion.php?accion=menu&id='.$row[id].'" class="btn btn-medium btn-primary"><p style="color: white">Seleccionar</p> <i class="icon-check icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 											</td>
 										</tr>
 									';
@@ -709,7 +705,7 @@
 		<?php
 	}//IMPRIMIR LISTA FIN
 
-	function modificar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables){
+	function modificar($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables, $id_registro){
 			
 		$con=conectar();	
 		$id=obten("id");
@@ -724,7 +720,7 @@
 		$ubicacion=$arreglo[13];
 		if($valida){
 			$valores=((trim(obten($name))));
-			$query_ver=mysql_este("select * from $nomb_tabla where $name = UPPER('$valores') and id <> $id",$name,$con);
+			$query_ver=mysql_este("select * from $nomb_tabla where $name = UPPER('$valores') and id <> $id_registro",$name,$con);
 			//echo $query_ver;
 		}
 		if(!$query_ver){
@@ -753,24 +749,24 @@
 							
 									
 								//echo 11111;
-						actualizaImagen($id,$name,$nomb_tabla,$name,$ubicacion,$con,$link);
+						actualizaImagen($id_registro,$name,$nomb_tabla,$name,$ubicacion,$con,$link);
 							}
 					}
 			}
 			$array_imagen=array($nomb_tabla,$name,$ubicacion,$con,$url);
 		}else{
-			echo alerta_bota('Alerta','Registro repetido favor de verificar',''.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'');
+			echo alerta_bota('Alerta','Registro repetido favor de verificar',''.$url.'?accion=menu&id='.$id.'');
 		}
 		}//*/
 		if(!$query_ver){
-			$query="UPDATE $nomb_tabla set $modificar where id = '$id'";
+			$query="UPDATE $nomb_tabla set $modificar where id = '$id_registro'";
 			//echo "<pre>".$query."</pre>";
 			mysql_query("begin",$con);
 			mysql_set_charset('utf8');
 			mysql_query($query,$con) or die (mysql_error());
 			mysql_query("commit",$con);
 
-			echo alerta_bota('Registro modificado con éxito',"informacion",''.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'');
+			echo alerta_bota('Registro modificado con éxito',"informacion",''.$url.'?accion=menu&id='.$id.'');
 		}//Update
 
 			//echo "<br /><br /><br /><br /><br /><br /><h1>Hola ".$query."</h1>";
@@ -862,7 +858,13 @@
 			}
 
 			if(!$query_ver){  
-				$query="INSERT INTO $nomb_tabla ($values) VALUES ($valor)"; 
+				if($url != "vh_vehiculos.php"){
+					$query="INSERT INTO $nomb_tabla ($values, id_vehiculo) VALUES ($valor, '.$id.') "; 
+				}
+				else
+				{
+					$query="INSERT INTO $nomb_tabla ($values) VALUES ($valor)"; 
+				}
 				//echo $query;
 				mysql_query("begin",$con);
 				mysql_set_charset('utf8');
@@ -892,7 +894,7 @@
 							}
 						}
 					}
-				echo alerta_bota('Registro guardado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'');
+				echo alerta_bota('Registro guardado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'');
 			}
 			else
 			{
@@ -907,13 +909,13 @@
 
 		$nameEmp=addslashes(obten("name"));
 		$con=conectar();
-		$sql="SELECT * FROM $nomb_tabla where id = '$id' ";
-		$result = mysql_query($sql,$con) or die (mysql_error());
-		if ($row = mysql_fetch_array($result)) {
-		$accion="modificar";
-		}else{
-			$accion="insertar";
-			}
+		// $sql="SELECT * FROM $nomb_tabla where id = '$id' ";
+		// $result = mysql_query($sql,$con) or die (mysql_error());
+		// if ($row = mysql_fetch_array($result)) {
+		// $accion="modificar";
+		// }else{
+		// 	$accion="insertar";
+		// 	}
 		echo'
 		<div class="panel panel-default">
 			<div class="container">
@@ -926,7 +928,7 @@
 						</div> <!-- /widget-header -->
 						<div class="widget-content">
 							<br />
-							<form action="'.$url.'?id='.$id.'&accion='.$accion.'" id="validation-form" class="form-horizontal" method="post" enctype="multipart/form-data" />
+							<form action="'.$url.'?id='.$id.'&accion=insertar" id="validation-form" class="form-horizontal" method="post" enctype="multipart/form-data" />
 							<input type="hidden" name="accion2" id="accion2" value="'.$accion.'">
 								<fieldset>';
 					$contador=count($array_variables);
@@ -1004,17 +1006,17 @@
 							echo''.salto_linea($columnas,$label).'';
 						}
 					}
-								if($url != 'rh_emp_atencion.php') 
+								if($url != 'vh_vehiculos.php') 
 								{
 									echo' 
 									<div class="col-md-10">
 										<div class="form-actions">
 										<br />
 										<button type="submit" class="btn btn-primary" alt="Registro Modificado con &eacute;xito">Guardar</button>&nbsp;&nbsp;
-										<a href="'.$url.'?accion=menu&id='.$id.'&name='.$nameEmp.'" class="btn btn-default" style="color:#000;">Cancelar</a>
+										<a href="'.$url.'?accion=menu&id='.$id.'" class="btn btn-default" style="color:#000;">Cancelar</a>
 									';
 								}
-								elseif($url == 'rh_emp_atencion.php') {
+								elseif($url == 'vh_vehiculos.php') {
 									echo' 
 									<div class="col-md-10">
 										<div class="form-actions">
@@ -1224,18 +1226,25 @@
 				}
 				############## CAPTURA PARA SANTANDER ##############
 			}
-		}
-		function eliminar($con,$id,$nomb_tabla,$url){
+		} 
+		//funcion para borrar registro (se actualiza solo el estado a 2)
+		function eliminar($con,$id,$nomb_tabla,$url,$id_registro){
 			echo '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
 			$con=conectar();
-			$fecha_reg=date("Y-m-d");
-			$id=obten("id");
+			$fecha_reg=date("Y-m-d");  
 			mysql_query("begin",$con);
 			mysql_set_charset('utf8');
-			$query="delete from $nomb_tabla where id = '$id';";
+			if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php")
+			{
+				$query="UPDATE $nomb_tabla SET $nomb_tabla.id_estado = 2 where $nomb_tabla.id = '$id_registro';";
+			}
+			else
+			{
+				$query="delete from $nomb_tabla where $nomb_tabla.id = '$id_registro';";
+			} 
 			mysql_query($query,$con) or die (mysql_error());
 			mysql_query("commit",$con);
-			echo alerta_bota('Registro eliminado con éxito','correcto',''.$url.'');
+			echo alerta_bota('Registro eliminado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'');
 			//echo $query;
 		}//fin funcion eliminar ok
 
@@ -1262,6 +1271,129 @@
 		";
 
 	}
+
+	function edit($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase,$id_vehiculo){
+
+		$nameEmp=addslashes(obten("name"));
+		$con=conectar();
+		$sql="SELECT * FROM $nomb_tabla where id = '$id' ";
+		$result = mysql_query($sql,$con) or die (mysql_error());
+		if ($row = mysql_fetch_array($result)) {
+		$accion="modificar";
+		}else{
+			$accion="insertar";
+			}
+		echo'
+		<div class="panel panel-default">
+			<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="widget stacked">
+						<div class="widget-header">
+							<i class="icon-check"></i>
+							<h3>'.$nombre_formulario.'<br>Los campos marcados con asterisco (*) son obligatorios</h3>
+						</div> <!-- /widget-header -->
+						<div class="widget-content">
+							<br />
+							<form action="'.$url.'?id='.$id_vehiculo.'&accion='.$accion.'&id_registro='.$id.'" id="validation-form" class="form-horizontal" method="post" enctype="multipart/form-data" />
+							<input type="hidden" name="accion2" id="accion2" value="'.$accion.'">
+								<fieldset>';
+					$contador=count($array_variables);
+					for($i=0;$i<$contador;$i++){
+					$arreglo=$array_variables[$i]; 
+					$label=$arreglo[0];
+					$name=$arreglo[1];
+					$tipo=$arreglo[2];
+					$tabla_cat=$arreglo[3];
+					$campo_cat=$arreglo[4];
+					$campos_x=$arreglo[5];
+					$parametros=$arreglo[6];
+					$columnas=$arreglo[7];
+					$VerRepSql=$arreglo[13];
+					
+					$where_sql="";
+					if($accion=="insertar")
+					{
+						$where_sql=$arreglo[14];
+					}
+					if($tipo=="text" or $tipo=="time" or $tipo=="password" or $tipo=="date" or $tipo=="number" or $tipo=="email"){
+						$name2=(utf8_encode($row[$name])); 
+						echo''.campo($label,$columnas,$tipo,$name,$name2,$parametros,"18","100").'';
+					} 
+						if($tipo=="checkbox"){
+							$name2=(utf8_encode($row[$name])); 
+							echo''.campo($label,$columnas,$tipo,$name,$tabla_cat,$parametros,"18","100").'';
+						}
+						if($tipo=="label"){
+							$name2=(utf8_encode($row[$name])); 
+							echo''.label($label,$columnas,"18","100").'';
+						} 
+						elseif($tipo=="hidden"){
+							$name2=(($_SESSION[realchange_usuario]));
+							echo''.campo('',$columnas,$tipo,$name,$name2,$parametros,"18","100").'';
+						} 
+						elseif($tipo=="hiddenInsert"){ 
+							$name2 = $id;
+							// $name = 'id_empleado';
+							echo''.hiddenInsert('',$columnas,$tipo,$name,$name2,$parametros,"18","100").'';
+						}//inserta id de usario a las llaves foraneas
+						elseif($tipo=="textarea"){
+							$name2=(($row[$name]));
+							echo''.memo($label,$columnas,$name,$name2,$parametros,"5","5").'';
+						}
+						elseif($tipo=="wisi"){
+							$name2=(utf8_encode($row[$name]));
+							echo''.wisi($label,$columnas,$name,$name2,$parametros,"5","5").'';
+						}
+						elseif($tipo=="wisicolor"){
+							$name2=(utf8_encode($row[$name]));
+							echo''.wisicolor($label,$columnas,$name,$name2,$parametros,"5","5").'';
+						}
+						elseif($tipo=="select_sql"){
+							if($VerRepSql){
+									$name2=(utf8_encode($row[$name]));
+									$sql='select id,'.$campo_cat.' from '.$tabla_cat.' where id not in (select id from '.$nomb_tabla.') '.$where_sql.' order by '.$campo_cat.'';
+								echo''.select_sql($label,$columnas,$name,$name2,$parametros,$sql,$campo_cat,"id",$con).'';
+								}else{
+									$name2=(utf8_encode($row[$name]));
+									$sql='select id,'.$campo_cat.' from '.$tabla_cat.' '.$where_sql.' order by '.$campo_cat.'';
+									echo''.select_sql($label,$columnas,$name,$name2,$parametros,$sql,$campo_cat,"id",$con).'';
+								}
+						}
+						elseif($tipo=="select_x"){
+							$name2=(utf8_encode($row[$name]));
+							$sql='select id,'.$campo_cat.' from '.$tabla_cat.' order by '.$campo_cat.'';
+							echo''.select_x($label,$columnas,$name,$name2,$parametros,$campos_x).'';
+						}
+						elseif($tipo=="file"){
+							$name2=($row[$name]);
+							echo''.imagen($label,$name,$columnas,$parametros,$name2,$urlbase).'';
+						}
+							elseif($tipo=="salto_linea"){
+							echo''.salto_linea($columnas,$label).'';
+						}
+					} 
+									echo' 
+									<div class="col-md-10">
+										<div class="form-actions">
+										<br />
+										<button type="submit" class="btn btn-primary" alt="Registro Modificado con &eacute;xito">Guardar</button>&nbsp;&nbsp;
+										<a href="'.$url.'?accion=menu&id='.$id_vehiculo.'" class="btn btn-default" style="color:#000;">Cancelar</a>
+									'; 
+									echo'
+									<br /> <br />
+									</div>
+								</div>
+								</fieldset>
+								</form>
+						</div> <!-- /widget-content -->
+					</div> <!-- /widget -->					
+				</div> <!-- /span12 -->     	
+			</div> <!-- /row -->
+			</div> <!-- /container -->
+		</div> <!-- /main -->
+		';
+	} 
 
 	function alerta_bota($mensaje,$tipo,$url){
 		echo '
@@ -1299,8 +1431,8 @@
 ?>
 
 <script type="text/javascript">
-	function valida_borrar_registro(id_registro) 
-	{
+	function valida_borrar_registro( id_registro, id) 
+	{ 
 		swal({
 		  title: "¿Estas seguro de eliminar este registro",
 		  text: "Si lo borras, jamas se recupera el registro",
@@ -1312,10 +1444,11 @@
 		  closeOnConfirm: false,
 		  closeOnCancel: false
 		},
-		function(isConfirm){
-		  if (isConfirm) {
-		      window.location.href = "<?php echo $url?>?accion=eliminar&id="+id_registro;
+		function(isConfirm){ 
+		  if (isConfirm) {  
+		      window.location.href = "<?php echo $url?>?accion=eliminar&id="+id+"&id_registro=" + id_registro; 
 		    } else {
+
 		      swal("Cancelado", "El registro no se elimino", "error");
 		    }
 		});
