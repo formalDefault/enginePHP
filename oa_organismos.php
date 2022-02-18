@@ -45,12 +45,10 @@
 
     ,array("Domicilo","","salto_linea","","","","","","","","","","","") 
 
-    ,array("Diócesis","dom_id_diocesis","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR(50)","","","","","")
-
-      ,array("Vicaria","dom_id_vicaria","select_sql","cat_vicarias","vicaria","","","4","INT","","","","","")
-      ,array("Decanato","dom_id_decanato","select_sql","cat_decanatos","decanato","","disabled","4","INT","","","","","")
-      ,array("Parroquia","dom_id_parroquia","select_sql","cat_parroquias","parroquia","","disabled","4","INT","","","","","")
-
+    ,array("Diócesis","dom_id_diocesis","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR(50)","","","","","") 
+    ,array("Vicaria","dom_id_vicaria","select_sql","cat_vicarias","vicaria","","","4","INT","","","","","")
+    ,array("Decanato","dom_id_decanato","select_sql","cat_decanatos","decanato","","disabled","4","INT","","","","","")
+    ,array("Parroquia","dom_id_parroquia","select_sql","cat_parroquias","parroquia","","disabled","4","INT","","","","","") 
     ,array("CP","dom_cp","number","","","","required","4","INT","NOT NULL","si","","","")
     ,array("Estado","dom_id_estado","select_sql","tcat_estados","estado","","disabled","4","INT","","","","","WHERE id = 1")
     ,array("Municipio","dom_id_municipio","select_sql","tcat_municipios","municipio","","disabled","4","INT","","","","","WHERE id = 1")

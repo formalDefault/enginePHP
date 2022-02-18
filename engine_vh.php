@@ -806,8 +806,7 @@
 								if($fecha_hora=="fecha"){$valores=date("Y-m-d");}else{$valores=date("H:i:s");}
 								if($i==0){$values=$name; $valor="('".$valores."')";}
 								else{$values.=",".$name;  $valor.=",('".$valores."')";}	
-							}
-
+							} 
 							elseif($name=="password")
 							{
 								$valores=(sha1(trim(obten($name))));
@@ -899,8 +898,8 @@
 			//echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><h4>$query</h4>";
 	}//INSERTAR
 
-	function formulario($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase){
-
+	function formulario($con,$id,$url,$nombre_formulario,$nomb_tabla,$array_variables,$color_form,$color_botones,$urlbase)
+	{
 		$nameEmp=addslashes(obten("name"));
 		$con=conectar();
 		// $sql="SELECT * FROM $nomb_tabla where id = '$id' ";
@@ -909,7 +908,7 @@
 		// $accion="modificar";
 		// }else{
 		// 	$accion="insertar";
-		// 	}
+		// } 
 		echo'
 		<div class="panel panel-default">
 			<div class="container">
@@ -930,7 +929,7 @@
 					$arreglo=$array_variables[$i]; 
 					$label=$arreglo[0];
 					$name=$arreglo[1];
-					$tipo=$arreglo[2];
+					$tipo=$arreglo[2];+
 					$tabla_cat=$arreglo[3];
 					$campo_cat=$arreglo[4];
 					$campos_x=$arreglo[5];

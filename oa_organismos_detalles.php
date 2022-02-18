@@ -44,13 +44,14 @@ $array_variables=array(
  ,array("Otro (cual) / observaciones","docs_otro","textarea","","","","","12","TEXT","","","","","")
 
  ,array("Domicilo","","salto_linea","","","","","","","","","","","") 
-  //,array("Diócesis","dom_id_diocesis","select_sql","","","","","","tinyint","","","","","")
-  //,array("Vicaria","dom_id_vicaria","select_sql","","","","","","tinyint","","","","","")
-  //,array("Decanato","dom_id_decanato","select_sql","","","","","","tinyint","","","","","")
-  //,array("Parroquia","dom_id_parroquia","select_sql","","","","","","tinyint","","","","","")
-  //,array("Estado","dom_id_estado","select_sql","","","","","","disabled","","","","","")
-  //,array("Municipio","dom_id_municipio","select_sql","","","","","","disabled","","","","","")
-  //,array("Colonia o Localidad","dom_id_colonia","select_sql","","","","","","TEXT","NOT NULL","","","","")
+ ,array("Diócesis","dom_id_diocesis","text","","","","onblur='this.value=this.value.toUpperCase()'","4","VARCHAR(50)","","","","","") 
+ ,array("Vicaria","dom_id_vicaria","select_sql","cat_vicarias","vicaria","","","4","INT","","","","","")
+ ,array("Decanato","dom_id_decanato","select_sql","cat_decanatos","decanato","","disabled","4","INT","","","","","")
+ ,array("Parroquia","dom_id_parroquia","select_sql","cat_parroquias","parroquia","","disabled","4","INT","","","","","") 
+ ,array("CP","dom_cp","number","","","","required","4","INT","NOT NULL","si","","","")
+ ,array("Estado","dom_id_estado","select_sql","tcat_estados","estado","","disabled","4","INT","","","","","WHERE id = 1")
+ ,array("Municipio","dom_id_municipio","select_sql","tcat_municipios","municipio","","disabled","4","INT","","","","","WHERE id = 1")
+ ,array("Colonia o Localidad","dom_id_colonia","select_sql","tcat_colonias","colonia","","disabled","4","INT","NOT NULL","","","","WHERE id = 1")
  ,array("Calle","dom_calle","text","","","","onblur='this.value=this.value.toUpperCase()' required","8","VARCHAR(50)","NOT NULL","si","","","")
  ,array("Núm. Exterior","dom_num_ext","number","","","","required","4","VARCHAR(5)","NOT NULL","si","","","")
  ,array("Número interior","dom_num_int","number","","","","","4","VARCHAR(5)","NOT NULL","si","","","")
@@ -125,6 +126,48 @@ $array_variables=array(
         $("#otro_tipo").attr('disabled', false);
       } 
     });
+
+    //Adaptacion al cambiar tipo de organismo a otro
+    $("#dom_cp").keyup(function()
+    { 
+      $cp = $("#dom_cp").val();
+      $.post('saca_datos.php',{cp:$cp,opc:"32"}, function(res) 
+      {
+        $( "#dom_id_estado" ).val(res); 
+      });
+      $.post('saca_datos.php',{cp:$cp,opc:"33"}, function(res) 
+      {
+        $( "#dom_id_municipio" ).val(res); 
+      });
+      $.post('saca_datos.php',{cp:$cp,opc:"34"}, function(res) 
+      {
+        $( "#dom_id_colonia" ).html(res);
+        $( "#dom_id_colonia" ).prop( "disabled", false );
+      }); 
+    });
+
+    //Adaptacion al cambiar Vicaria
+    $("#dom_id_vicaria").change(function(event)
+      {
+        $.post('saca_datos.php',{vicaria:$("#dom_id_vicaria").val(),opc:"12"}, function(res_mun) 
+        {
+          $("#dom_id_decanato").attr('disabled', false);
+          $("#dom_id_decanato").html( res_mun); 
+        });
+
+      });
+
+    //Adaptacion al cambiar Vicaria
+    $("#dom_id_decanato").change(function(event)
+      {
+        $.post('saca_datos.php',{decanato:$("#dom_id_decanato").val(),opc:"13"}, function(res) 
+          {
+            $("#dom_id_parroquia").attr('disabled', false); 
+            $("#dom_id_parroquia").html(res);
+
+          }); 
+      });
+
 
   });
 </script>	<!-- Custom CSS -->
