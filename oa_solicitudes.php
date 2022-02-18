@@ -2,27 +2,27 @@
 session_start();
 if($_SESSION[admin_id_pub]){
 include "config.php";
-$pagina="Agregar Asignaciones";  
+$pagina="Agregar Solicitudes";  
 
 //CONFIGURACION DE PAGINA
 $color_form="naranja";
 $color_imprimir="naranja";
 $color_botones="blanco";
-$url="vh_asignacion.php";
-$nomb_tabla="vh_asignaciones";
-$nombre_formulario="Asignaciones";
-$titulo_boton_agregar="Agregar nueva asignacion";
+$url="oa_solicitudes.php";
+$nomb_tabla="oa_solicitudes";
+$nombre_formulario="Solicitudes";
+$titulo_boton_agregar="Agregar soliciutd";
 $genera_reportes="si";
 $imp_id="";	//mostrar id en imprimir 
 
 $array_variables = array(
 
-  array("*Fecha de asignacion","fecha_asignacion","date","","","","onblur='this.value=this.value.toUpperCase()' required","4","DATE","NOT NULL","si","","","")
-  ,array("*Tipo de ingreso","id_tipo_ingreso","select_sql","vh_tcat_tipo_ingreso","tipo_ingreso","","onblur='this.value=this.value.toUpperCase()' required","4","INT","NOT NULL","","","","")
-  ,array("Monto estimado","monto","number","","","","min='0' step='0.01'","4","DOUBLE","NOT NULL","si","","","")
-  ,array("*Asignacion","area_asignacion","select_sql","c_programas","programa","","onblur='this.value=this.value.toUpperCase()' required","4","INT","NOT NULL","si","","","")
-  ,array("*Usuario asignado","id_usuario_asignacion","select_sql","view_empleados","nombre_completo","","","4","INT","NOT NULL","si","","","")
-  ,array("Observaciones","observaciones","textarea","","","","","12","TEXT","NOT NULL","","","","") 
+  array("Pendiente presentar informe o evidencia","informe_presentado","select_x","","","|Si=Si|No=No","required","4","VA RHCAR(2)","NOT NULL","si","","","")
+  ,array("Fecha de solicitud de apoyo","fecha_solicitud","date","","","","","4","DATE","","si","","","")
+  ,array("Solicitud de apoyo","solicitud","text","","","","onblur='this.value=this.value.toUpperCase()' required","4","VARCHAR(100)","NOT NULL","si","","","")
+  ,array("Proyecto","id_proyecto","select_sql","pf_proyectos","nombre","","onblur='this.value=this.value.toUpperCase()' required","4","INT","NOT NULL","","","","")
+  ,array("Fecha de autorización de apoyo","fecha_autorizacion","date","","","","","4","DATE","","","","","")
+  ,array("","id_organismo","hiddenInsert","","","","","","","","","","","")
 
 );
 

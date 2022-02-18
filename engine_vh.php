@@ -109,27 +109,21 @@
 			
 			<div class="" style="margin-bottom:15px;margin-top-10px">  
 				<div class="flex flex-row ">   
-					<a href="vh_asignacion.php?'.$query_datosVh.'" class=" btn btn-primary" >
-						Asignaciones
+					<a href="oa_organismos_detalles.php?'.$query_datosVh.'" class=" btn btn-primary" >
+						Detalles de organismo
 					</a> 
-					<a href="vh_servicios.php?'.$query_datosVh.'" class="ml-10 btn btn-success"">
-						Servicios
+					<a href="oa_solicitudes.php?'.$query_datosVh.'" class="ml-10 btn btn-success"">
+						Solicitudes
 					</a>
-					<a href="vh_incidencias.php?'.$query_datosVh.'" class="ml-10 btn btn-danger">
-						Incidencias
-					</a>
-					<a href="vh_seguros.php?'.$query_datosVh.'" class="ml-10 btn btn-warning">
-						Seguros
-					</a>
-					<a href="vh_refrendos.php?'.$query_datosVh.'" class="ml-10 btn btn-info">
-						Refrendos
-					</a>
-					<a href="vh_asignaciones_extra.php?'.$query_datosVh.'" class="ml-10 btn btn-warning">
-						Asignaciones extra
+					<a href="oa_movimientos.php?'.$query_datosVh.'" class="ml-10 btn btn-danger">
+						Movimientos
 					</a> 
-					<a href="vh_vehiculos.php" class="ml-10 btn btn-primary"> 
-						Regresar al menu de vehiculos
-					</a>
+					<a href="oa_proyectos.php?'.$query_datosVh.'" class="ml-10 btn btn-success">
+						Proyectos
+					</a> 
+					<a href="oa_organismos.php" class="ml-10 btn btn-primary">
+						Regresar al menu de organismos
+					</a> 
 				</div>
 			</div> 					
 			
@@ -147,29 +141,11 @@
 							<div class="table-wrap">	
 								<div class="mt-40">	
 							
-									<section id="buttons">';
-									if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php")
-									{
-										$query = mysql_query("SELECT COUNT(*) FROM $nomb_tabla WHERE id_vehiculo = $id AND id_estado = 1");
-										$rw = mysql_fetch_row($query);
-										$filas = $rw[0];
-										if( $filas == '0' ){
-											echo'
-											<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
-											'.$titulo_boton_agregar.'</a></p> 
-											';
-										}
-										else{
-											echo '';
-										}
-									}
-									else
-									{
-										echo'
-											<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
-											'.$titulo_boton_agregar.'</a></p> 
-										';
-									}
+									<section id="buttons">'; 
+									echo'
+										<p align="center"><a href="'.$url.'?accion=agregar&id='.$id.' " class="btn btn-large btn-success">
+										'.$titulo_boton_agregar.'</a></p> 
+									'; 
 
 									
 									echo' 
@@ -253,10 +229,10 @@
 									$current_user=$_SESSION["admindif_admin_id"];
 								$fin_concat="CONCAT_WS(' ',".$concatenador.")";
 								//echo $fin_concat; 
-								if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php"){
-									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id_vehiculo=$id AND $nomb_tabla.id_estado != 2 AND $fin_concat like'%$buscador%'";
+								if($url == "oa_organismos_detalles.php"){
+									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id=$id AND $nomb_tabla.id_estado != 3 AND $fin_concat like'%$buscador%'";
 								} else {
-									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id_vehiculo=$id AND $fin_concat like'%$buscador%'";
+									$query_num="SELECT $nomb_tabla.id $variables FROM $nomb_tabla $cruce WHERE $nomb_tabla.id_organismo=$id AND $fin_concat like'%$buscador%'";
 								}
 								//echo $query_num;
 								$query_num_con=mysql_query($query_num,$con);
@@ -563,7 +539,7 @@
 									$current_user=$_SESSION["admindif_admin_id"];
 								$fin_concat="CONCAT_WS(' ',".$concatenador.")";
 								//echo $fin_concat;
-								$query_num="SELECT $nomb_tabla.id$variables FROM $nomb_tabla $cruce where $fin_concat like'%$buscador%'";
+								$query_num="SELECT $nomb_tabla.id$variables FROM $nomb_tabla $cruce where $nomb_tabla.id_estado != 3 AND $fin_concat like'%$buscador%'";
 								//echo $query_num;
 								$query_num_con=mysql_query($query_num,$con);
 								$num_registros = mysql_num_rows($query_num_con);
@@ -647,7 +623,7 @@
 									}						            
 									echo'
 										<td class="title tablesaw-cell-persist"><a href="javascript:void(0)">
-											<a href="'.$link.'vh_asignacion.php?accion=menu&id='.$row[id].'" class="btn btn-medium btn-primary"><p style="color: white">Seleccionar</p> <i class="icon-check icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+											<a href="'.$link.'oa_organismos_detalles.php?accion=menu&id='.$row[id].'" class="btn btn-medium btn-primary"><p style="color: white">Seleccionar</p> <i class="icon-check icon-large" style="color:#fff;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 											</td>
 										</tr>
 									';
@@ -876,8 +852,8 @@
 			}
 
 			if(!$query_ver){  
-				if($url != "vh_vehiculos.php"){
-					$query="INSERT INTO $nomb_tabla ($values, id_vehiculo) VALUES ($valor, '.$id.') "; 
+				if($url != "oa_organismos.php"){
+					$query="INSERT INTO $nomb_tabla ($values, id_organismo) VALUES ($valor, '.$id.') "; 
 				}
 				else
 				{
@@ -904,15 +880,15 @@
 
 						if($tipo_input=="file"){
 							$archivo=basename($_FILES[$name]['name']);
-													//echo 1111111111;
-
+													//echo 1111111111; 
 							if($archivo){
 							subeImagen($name,$nomb_tabla,$name,$ubicacion,$con,$url);
 							//echo 1111111111;
 							}
 						}
 					}
-				echo alerta_bota('Registro guardado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'');
+				// echo alerta_bota('Registro guardado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'');
+				echo alerta_bota('Registro guardado con éxito','correcto',$url == 'oa_organismos.php' ? 'oa_organismos.php' : $url.'?accion=menu&id='.$id.'');
 			}
 			else
 			{
@@ -986,7 +962,7 @@
 						elseif($tipo=="hiddenInsert"){ 
 							$name2 = $id;
 							// $name = 'id_empleado';
-							echo''.hiddenInsert('',$columnas,$tipo,$name,$name2,$parametros,"18","100").'';
+							echo''.hiddenInsert('',$columnas,$tipo,$name,$id,$parametros,"18","100").'';
 						}//inserta id de usario a las llaves foraneas
 						elseif($tipo=="textarea"){
 							$name2=(($row[$name]));
@@ -1024,7 +1000,7 @@
 							echo''.salto_linea($columnas,$label).'';
 						}
 					}
-								if($url != 'vh_vehiculos.php') 
+								if($url != 'oa_organismos.php') 
 								{
 									echo' 
 									<div class="col-md-10">
@@ -1034,7 +1010,7 @@
 										<a href="'.$url.'?accion=menu&id='.$id.'" class="btn btn-default" style="color:#000;">Cancelar</a>
 									';
 								}
-								elseif($url == 'vh_vehiculos.php') {
+								elseif($url == 'oa_organismos.php') {
 									echo' 
 									<div class="col-md-10">
 										<div class="form-actions">
@@ -1245,16 +1221,17 @@
 				############## CAPTURA PARA SANTANDER ##############
 			}
 		} 
-		//funcion para borrar registro (se actualiza solo el estado a 2)
+		
+	//funcion para borrar registro (se actualiza solo el estado a 2)
 		function eliminar($con,$id,$nomb_tabla,$url,$id_registro){
 			echo '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
 			$con=conectar();
 			$fecha_reg=date("Y-m-d");  
 			mysql_query("begin",$con);
 			mysql_set_charset('utf8');
-			if($url == "vh_asignacion.php" || $url == "vh_seguros.php" || $url == "vh_asignaciones_extra.php")
+			if($url == "oa_organismos_detalles.php" )
 			{
-				$query="UPDATE $nomb_tabla SET $nomb_tabla.id_estado = 2 where $nomb_tabla.id = '$id_registro';";
+				$query="UPDATE $nomb_tabla SET $nomb_tabla.id_estado = 3, $nomb_tabla.fecha_baja= '$fecha_reg' where $nomb_tabla.id = '$id_registro';";
 			}
 			else
 			{
@@ -1262,7 +1239,8 @@
 			} 
 			mysql_query($query,$con) or die (mysql_error());
 			mysql_query("commit",$con);
-			echo alerta_bota('Registro eliminado con éxito','correcto',''.$url.'?accion=menu&id='.$id.'');
+			// echo alerta_bota('Registro eliminado con éxito','correcto',''.$url.'?accion=menu&id='.$id.''); 
+			echo alerta_bota('Registro eliminado con éxito','correcto', $url == 'oa_organismos_detalles.php' ? 'oa_organismos.php' : $url.'?accion=menu&id='.$id.'');
 			//echo $query;
 		}//fin funcion eliminar ok
 

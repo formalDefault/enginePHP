@@ -48,7 +48,7 @@ include "config.php";
 			include "barra_nav.php";
 			include "barra_izquierda.php";
 			include "barra_derecha.php";
-			include "vh_vehiculos.php"; 
+			include "oa_organismos.php"; 
 			@include "funciones.php";  
 			$area=obten("area");
 			$coordinacion=obten("coordinacion");
